@@ -1,11 +1,15 @@
 package com.jakewharton.rx;
 
-import io.reactivex.Notification;
-import io.reactivex.Observable;
-import io.reactivex.functions.Function;
-import io.reactivex.observables.GroupedObservable;
 import java.util.concurrent.atomic.AtomicInteger;
-import org.junit.Test;
+
+import org.junit.*;
+
+import io.reactivex.*;
+import io.reactivex.functions.Function;
+import io.reactivex.internal.functions.Functions;
+import io.reactivex.observables.GroupedObservable;
+import io.reactivex.observers.TestObserver;
+import io.reactivex.subjects.PublishSubject;
 
 public final class WindowIfChangedTest {
   private final Function<Message, String> userSelector = new Function<Message, String>() {
@@ -99,5 +103,44 @@ public final class WindowIfChangedTest {
             Notification.createOnNext("1 Bob Hello"), //
             Notification.<String>createOnComplete()) //
         .assertError(error);
+  }
+
+  @Test public void take1Outer() {
+      WindowIfChanged.create(Observable.just(1, 1, 1, 1, 1, 1), Functions.<Integer>identity())
+      .take(1)
+      .flatMap(Functions.<Observable<Integer>>identity())
+      .test()
+      .assertResult(1, 1, 1, 1, 1, 1);
+  }
+
+  @Test public void take1OuterKeyChanged() {
+      WindowIfChanged.create(Observable.just(1, 1, 1, 1, 1, 1, 2, 2), Functions.<Integer>identity())
+      .take(1)
+      .flatMap(Functions.<Observable<Integer>>identity())
+      .test()
+      .assertResult(1, 1, 1, 1, 1, 1);
+  }
+
+  @Test public void take1WindowTake1() {
+      PublishSubject<Integer> ps = PublishSubject.create();
+
+      TestObserver<Integer> ts = WindowIfChanged.create(ps, Functions.<Integer>identity())
+              .take(1)
+              .flatMap(new Function<GroupedObservable<Integer, Integer>, ObservableSource<Integer>>() {
+                @Override
+                public ObservableSource<Integer> apply(GroupedObservable<Integer, Integer> w)
+                        throws Exception {
+                    return w.take(1);
+                }
+            })
+            .test();
+
+      Assert.assertTrue(ps.hasObservers());
+
+      ps.onNext(1);
+
+      Assert.assertFalse(ps.hasObservers());
+
+      ts.assertResult(1);
   }
 }

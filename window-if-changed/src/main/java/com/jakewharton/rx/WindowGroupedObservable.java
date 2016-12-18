@@ -15,15 +15,16 @@
  */
 package com.jakewharton.rx;
 
-import io.reactivex.Observer;
+import io.reactivex.*;
 import io.reactivex.observables.GroupedObservable;
 import io.reactivex.subjects.UnicastSubject;
 
 final class WindowGroupedObservable<K, T> extends GroupedObservable<K, T> {
-  final UnicastSubject<T> state = UnicastSubject.create();
+  final UnicastSubject<T> state;
 
-  WindowGroupedObservable(K key) {
+  WindowGroupedObservable(K key, Runnable onCancel) {
     super(key);
+    state = UnicastSubject.create(bufferSize(), onCancel);
   }
 
   @Override protected void subscribeActual(Observer<? super T> observer) {
