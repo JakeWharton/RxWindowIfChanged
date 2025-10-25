@@ -1,6 +1,6 @@
 [libraries]
 kotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.21"
-compatPlugin = "com.gradleup.compat.patrouille:compat-patrouille-gradle-plugin:0.1.0"
+mavenPublishPlugin = "com.vanniktech:gradle-maven-publish-plugin:0.34.0"
 
 rxjava2 = "io.reactivex.rxjava2:rxjava:2.2.21"
 

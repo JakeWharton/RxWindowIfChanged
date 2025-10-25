@@ -4,6 +4,7 @@ buildscript {
   }
   dependencies {
     classpath libs.kotlinPlugin
+    classpath libs.mavenPublishPlugin
   }
 }
 
