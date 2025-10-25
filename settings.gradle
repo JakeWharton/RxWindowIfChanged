@@ -1,0 +1,6 @@
+rootProject.name = 'RxWindowIfChanged'
+
+include ':window-if-changed'
+include ':window-if-changed-kotlin'
+
+enableFeaturePreview('TYPESAFE_PROJECT_ACCESSORS')

@@ -1,0 +1,7 @@
+apply plugin: 'org.jetbrains.kotlin.jvm'
+
+dependencies {
+  api projects.windowIfChanged
+
+  testImplementation libs.junit
+}
