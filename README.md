@@ -1,5 +1,4 @@
-RxJava Window If Changed
-======================== 
+# RxJava Window If Changed
 
 The `WindowIfChanged` operator for RxJava 2 divides an `Observable` that emits items into an
 `Observable` that emits `Observables`, each one of which emits some subset of the items from the
@@ -17,9 +16,12 @@ Observable<GroupedObservable<String, Action>> targetedActions =
 ```
 
 
-Download
---------
+## Download
 
+Gradle:
+```kotlin
+implementation("com.jakewharton.rx:window-if-changed:1.0.0")
+```
 Maven:
 ```xml
 <dependency>
@@ -28,10 +30,6 @@ Maven:
   <version>1.0.0</version>
 </dependency>
 ```
-Gradle:
-```groovy
-compile 'com.jakewharton.rx:window-if-changed:1.0.0'
-```
 
 If you use Kotlin, a package with an extension method for `Observable` is provided. Replace the
 `window-if-changed` artifact ID above with `window-if-changed-kotlin`.
@@ -39,8 +37,7 @@ If you use Kotlin, a package with an extension method for `Observable` is provid
 Snapshots of the development version are available in [Sonatype's `snapshots` repository][snap].
 
 
-License
--------
+## License
 
     Copyright 2016 Jake Wharton
 
